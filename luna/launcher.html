@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>.Luna.</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .loader-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #000;
+    z-index: 10;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+
+  .loader-wrapper.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .loader-wrapper img {
+    width: 140px;
+    height: auto;
+    z-index: 2;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  svg {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    transform: rotate(-90deg);
+  }
+
+  circle {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+
+  .bg {
+    stroke: rgba(255, 255, 255, 0.1);
+  }
+
+  .progress {
+    stroke: #808080;
+    stroke-dasharray: 630;
+    stroke-dashoffset: 630;
+    transition: stroke-dashoffset 0.6s ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.9; }
+  }
+
+  iframe {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  iframe.show {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+  <div class="loader-wrapper">
+    <svg viewBox="0 0 220 220">
+      <circle class="bg" cx="110" cy="110" r="100"></circle>
+      <circle class="progress" cx="110" cy="110" r="100"></circle>
+    </svg>
+    <img src="/assets/images/luna.png" alt="Luna Logo">
+  </div>
+
+  <iframe id="lunaFrame" src="/luna/hi.html"></iframe>
+
+<script>
+  const circle = document.querySelector('.progress');
+  const loader = document.querySelector('.loader-wrapper');
+  const frame = document.getElementById('lunaFrame');
+  const circumference = 630;
+  let progress = 0;
+
+  function randomBurst() {
+    const jump = Math.random() * 0.25 + 0.05;
+    progress += jump;
+    if (progress > 1) progress = 1;
+
+    circle.style.strokeDashoffset = circumference * (1 - progress);
+
+    if (progress < 1) {
+      setTimeout(randomBurst, Math.random() * 800 + 200);
+    } else {
+      setTimeout(() => {
+        loader.classList.add('hide');
+        frame.classList.add('show');
+      }, 500);
+    }
+  }
+
+  setTimeout(randomBurst, 500);
+</script>
+</body>
+</html>
