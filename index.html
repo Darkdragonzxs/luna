@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luna | Game Launcher</title>
+<link rel="icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Reset */
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 4rem;
+    margin-bottom: 10px;
+  }
+
+  p.instruction {
+    color: #888;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+  }
+
+  .grid {
+    display: flex;
+    gap: 10px; /* closer tiles */
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  .game-card, .discord {
+    width: 220px;
+    height: 220px;
+    border: 5px solid #fff; /* thick outlines */
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .game-card img, .discord img {
+    width: 95%;
+    height: 95%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+
+  .game-card:hover {
+    transform: scale(1.1);
+    border-color: #00ffff;
+  }
+
+  .discord:hover {
+    transform: scale(1.1);
+    border-color: #ff00ff;
+  }
+
+  /* Fullscreen overlay */
+  .overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: #000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .overlay iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .credit {
+    margin-top: 30px;
+    color: #666;
+    font-size: 0.85rem;
+  }
+
+  .credit a {
+    color: #999;
+    text-decoration: none;
+  }
+
+  .credit a:hover {
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<h1>Luna</h1>
+<p class="instruction">Click a game to launch fullscreen</p>
+
+<div class="grid">
+  <a href="https://discord.gg/zxs" class="discord" target="_blank" rel="noopener">
+    <img src="https://cdn.jsdelivr.net/gh/Darkdragonzxs/luna@main/disc.png" alt="Discord">
+  </a>
+
+  <div class="game-card" data-src="/luna/launcher.html">
+    <img src="https://cdn.jsdelivr.net/gh/Darkdragonzxs/calc-flood@main/pedos.png" alt="Game">
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <iframe id="gameFrame" src=""></iframe>
+</div>
+
+<script>
+  const overlay = document.getElementById('overlay');
+  const iframe = document.getElementById('gameFrame');
+
+  document.querySelectorAll('.game-card').forEach(card => {
+    card.addEventListener('click', () => {
+      iframe.src = card.getAttribute('data-src');
+      overlay.style.display = 'flex';
+    });
+  });
+</script>
+
+</body>
+</html>
